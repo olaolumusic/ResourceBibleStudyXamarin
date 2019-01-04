@@ -111,8 +111,6 @@ namespace ResourceBibleStudyXamarin.Widget
             mSecondaryOnClickListener = l;
         }
 
-
-
         public override void AddView(View child)
         {
             base.AddView(child);
@@ -231,8 +229,7 @@ namespace ResourceBibleStudyXamarin.Widget
         {
             if (mEnabled)
             {
-                if (mSecondaryOnClickListener != null)
-                    mSecondaryOnClickListener.OnClick(view);
+                mSecondaryOnClickListener?.OnClick(view);
                 if (mOnItemClickListener != null && GetLastIndex() != -1)
                     mOnItemClickListener.OnItemClick(null, GetChildAt(GetLastIndex()), GetLastIndex(), GetLastIndex() / mColCount);
             }
