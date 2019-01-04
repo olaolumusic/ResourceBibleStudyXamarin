@@ -146,7 +146,7 @@ namespace ResourceBibleStudyXamarin
 
                 if (position == 1)
                 {
-                    fragment = new DailyScriptureFragment();
+                    fragment = new BibleFragment();
                 }
 
                 return fragment;
