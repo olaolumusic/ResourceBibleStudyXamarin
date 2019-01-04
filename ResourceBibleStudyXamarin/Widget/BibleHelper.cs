@@ -1,5 +1,6 @@
 ﻿using Android.App;
-using Java.IO;
+using Java.Lang;
+using Newtonsoft.Json;
 using ResourceBibleStudyXamarin.Model;
 using System.Collections.Generic;
 using System.IO;
@@ -9,37 +10,41 @@ namespace ResourceBibleStudyXamarin.Widget
 
     public class BibleHelper
     {
-        static Bible mBible;
-        static List<DailyScriptures> mDailyScriptures;
-        static Activity mActivity;
+        private static Bible _bible;
+        private static List<DailyScriptures> _dailyScriptures;
+        private static Activity _activity;
+
 
         public static Bible GetBible(Activity activity)
         {
-            mActivity = activity;
-            if (mBible != null && mBible.Books.Count > 0) return mBible;
+            _activity = activity;
+            if (_bible != null && _bible.Books.Count > 0) return _bible;
 
-            string content;
-            var assets = mActivity.Assets;
-            using (var reader = new StreamReader(assets.Open("msg.txt")))
+            using (var isReader = new StreamReader(_activity.Assets.Open("msg.txt")))
             {
-
+                _bible = JsonConvert.DeserializeObject<Bible>(isReader.ReadToEnd());
             }
 
-            return mBible;
+            return _bible;
         }
 
         public static List<DailyScriptures> GetDailyScriptures(Activity activity)
         {
-            mActivity = activity;
-            if (mDailyScriptures != null && mDailyScriptures.Count > 0) return mDailyScriptures;
-
-            using (var isReader = mActivity.Assets.Open("dailyscriptures.txt"))
+            _activity = activity;
+            if (_dailyScriptures != null && _dailyScriptures.Count > 0) return _dailyScriptures;
+            try
             {
-                var reader = new BufferedReader(new InputStreamReader(isReader));
-                //Newton Json 
+                using (var isReader = new StreamReader(_activity.Assets.Open("dailyscriptures.txt")))
+                {
+                    _dailyScriptures = JsonConvert.DeserializeObject<List<DailyScriptures>>(isReader.ReadToEnd());
+                }
+            }
+            catch (Exception exception)
+            {
+                exception.PrintStackTrace();
             }
 
-            return mDailyScriptures;
+            return _dailyScriptures;
         }
 
 

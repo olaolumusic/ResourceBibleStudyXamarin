@@ -1,5 +1,4 @@
 ﻿using Android.App;
-using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.Design.Widget;
@@ -20,10 +19,9 @@ namespace ResourceBibleStudyXamarin.Fragments
     public class DailyScriptureFragment : Fragment, View.IOnTouchListener
     {
 
-        private static string TAB_POSITION = "tab_position";
+        private const string TabPosition = "tab_position";
 
 
-        static Context mContext;
         private const string TAG = "DailyScriptureFragment";
         private TextView mDailyReadingTitle;
         private Book mDailyReadingBook;
@@ -78,18 +76,21 @@ namespace ResourceBibleStudyXamarin.Fragments
             mPreviousButton = (Button)dailyFragmentView.FindViewById(Resource.Id.btnPrevious);
             mNextButton = (Button)dailyFragmentView.FindViewById(Resource.Id.btnNext);
 
-            mDiscussionFloatingActionButton = (FloatingActionButton)dailyFragmentView.FindViewById(Resource.Id.discussion_fab);
-            mDiscussionFloatingActionButton.Click += (sender, args) =>
-            {
-                StartActivity(new Intent(mActivity, typeof(MainActivity)));
-            };
+            var fab = dailyFragmentView.FindViewById<FloatingActionButton>(Resource.Id.fab);
+            fab.Click += FabOnClick;
 
-            mDailyScripturesFloatingActionButton = (FloatingActionButton)dailyFragmentView.FindViewById(Resource.Id.daily_fab);
+            //mDiscussionFloatingActionButton = (FloatingActionButton)dailyFragmentView.FindViewById(Resource.Id.discussion_fab);
+            //mDiscussionFloatingActionButton.Click += (sender, args) =>
+            //{
+            //    StartActivity(new Intent(mActivity, typeof(MainActivity)));
+            //};
 
-            mDailyScripturesFloatingActionButton.Click += (sender, args) =>
-                    {
-                        ShowCalender();
-                    };
+            //mDailyScripturesFloatingActionButton = (FloatingActionButton)dailyFragmentView.FindViewById(Resource.Id.daily_fab);
+
+            //mDailyScripturesFloatingActionButton.Click += (sender, args) =>
+            //        {
+            //            ShowCalender();
+            //        };
 
             mNextButton.Click += (sender, args) =>
             {
@@ -147,6 +148,15 @@ namespace ResourceBibleStudyXamarin.Fragments
 
             return dailyFragmentView;
         }
+
+
+        private static void FabOnClick(object sender, EventArgs eventArgs)
+        {
+            View view = (View)sender;
+            Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
+                .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+        }
+
         private void LoadDailyReading(int timeOfDay)
         {
 
@@ -357,7 +367,8 @@ namespace ResourceBibleStudyXamarin.Fragments
 
         public bool OnTouch(View v, MotionEvent e)
         {
-            throw new NotImplementedException();
+            return true;
+            //throw new NotImplementedException();
         }
     }
 }
